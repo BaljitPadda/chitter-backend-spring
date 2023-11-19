@@ -2,22 +2,29 @@ package com.chitterchallengespring.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.Date;
 
 @Document("peeps_")
 
 public class Peep {
 
     @Id
+    private String id;
+
     @JsonProperty("userID")
+    @NotEmpty(message="A peep must have a userID.")
     private String userID;
 
-    @JsonSetter("time")
+    @JsonProperty("time")
+    @NotEmpty(message="A peep must have a time created.")
     private String time;
 
-    @JsonSetter("message")
+    @JsonProperty("message")
     @NotEmpty(message="Psst.. Did you forget to write your message?")
     private String message;
 
@@ -43,5 +50,13 @@ public class Peep {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
