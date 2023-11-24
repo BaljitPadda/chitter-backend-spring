@@ -3,18 +3,19 @@ package com.chitterchallengespring.demo;
 import com.chitterchallengespring.demo.helpers.JsonFileReader;
 import com.chitterchallengespring.demo.model.Peep;
 import com.chitterchallengespring.demo.model.User;
+import com.chitterchallengespring.demo.repositories.PeepRepository;
+import com.chitterchallengespring.demo.services.PeepService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.JSONValue;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ class DemoApplicationTests {
 
 
         @Test
-        @DisplayName("Should return status code 200 when you try to update an existing peep")
+        @DisplayName("Should return status code 200 when you try to edit/update an existing peep")
         void shouldReturnOkHttpStatusCode() throws Exception {
             Peep testPeep = new Peep();
             testPeep.setUserID("John2000");
@@ -156,7 +157,7 @@ class DemoApplicationTests {
             System.out.println(contentAsString);
 
             ObjectMapper objectMapper = new ObjectMapper();
-            List<User> userResponse = objectMapper.readValue(contentAsString, objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
+            User userResponse = objectMapper.readValue(contentAsString, User.class);
 
             mockMvc.perform(post("/login/Mario2023")
                     .contentType(MediaType.APPLICATION_JSON)

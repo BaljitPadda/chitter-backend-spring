@@ -3,10 +3,10 @@ package com.chitterchallengespring.demo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import jakarta.validation.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("users_")
-
 public class User {
 
     @JsonProperty
@@ -15,10 +15,12 @@ public class User {
 
     @JsonProperty
     @NotEmpty(message = "A user must have a username.")
+    @Indexed(unique=true)
     private String username;
 
     @JsonProperty
     @NotEmpty(message = "A user must have an email.")
+    @Indexed(unique=true)
     private String email;
 
     @JsonProperty

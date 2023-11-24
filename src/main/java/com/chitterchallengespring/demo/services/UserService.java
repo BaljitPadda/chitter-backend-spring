@@ -4,6 +4,7 @@ import com.chitterchallengespring.demo.model.User;
 import com.chitterchallengespring.demo.repositories.PeepRepository;
 import com.chitterchallengespring.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -18,25 +20,31 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> signup(User user) {
-        return Collections.singletonList(userRepository.save(user));
+    UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public User signup(User user) {
+        if(userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "That username is already in use.");
+        }
+        if(userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "That email is already registered.");
+        }
+        return userRepository.save(user);
     }
 
     public User login(User user) {
-        List<User> list = userRepository.findAll();
 
-        for (User u : list) {
-            if (u.getUsername().equals(user.getUsername())) {
-                return user;
-            }
-        } throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User doesn't exist");
+        Optional<User> registeredUser = userRepository.findByUsername(user.getUsername());
+
+        if (registeredUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User doesn't exist");
+        }
+        if(!registeredUser.get().getPassword().equals(user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect password");
+        }
+        return user;
     }
 }
-//        if (loggedIn) {
-//             System.out.println("Welcome " + user.getName());
-//        } else {
-//             System.out.println("Sorry can't log you in.");
-//        }
-//        return user;
-//    }
-//}
+

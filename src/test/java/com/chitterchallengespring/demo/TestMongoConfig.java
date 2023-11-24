@@ -12,8 +12,6 @@ import java.util.List;
 @Configuration
 public class TestMongoConfig {
 
-    private static final String collectionName = "peeps_";
-
     @Bean
     public static MongoTemplate mongoTemplate() {
         return new MongoTemplate(new SimpleMongoClientDatabaseFactory("mongodb://localhost:27017/peeps_test"));
@@ -21,14 +19,11 @@ public class TestMongoConfig {
     //Mongo template is a representation of a database
 
     public static void clearCollection() {
-        System.out.println("Deleting existing peeps");
-        mongoTemplate().remove(new Query(), collectionName);
-    }
+        System.out.println("Deleting all peeps");
+        mongoTemplate().remove(new Query(), "peeps_");
 
-    public static void repopulateCollection(List<Peep> peeps) {
-        System.out.println("Creating peeps");
-        System.out.println("Inserting peeps");
-        mongoTemplate().insert(peeps, collectionName);
+        System.out.println("Deleting all users");
+        mongoTemplate().remove(new Query(), "users_" );
     }
 
 }

@@ -10,7 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import java.util.Date;
 
 @Document("peeps_")
-
 public class Peep {
 
     @Id

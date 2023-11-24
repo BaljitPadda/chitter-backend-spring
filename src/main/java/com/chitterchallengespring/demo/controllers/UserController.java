@@ -23,7 +23,7 @@ public class UserController {
     @PostMapping(value = "/signup")
     @CrossOrigin
     @ResponseStatus(HttpStatus.CREATED)
-    public List<User> signUp(@Valid @RequestBody User user) {
+    public User signUp(@Valid @RequestBody User user) {
         return userService.signup(user);
     }
 

@@ -6,6 +6,7 @@ import com.chitterchallengespring.demo.model.User;
 import com.chitterchallengespring.demo.repositories.PeepRepository;
 import com.chitterchallengespring.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,9 +22,14 @@ public class PeepService {
     @Autowired
     private UserRepository userRepository;
 
+    PeepService(PeepRepository peepRepository, UserRepository userRepository) {
+        this.peepRepository = peepRepository;
+        this.userRepository = userRepository;
+    };
     public List<PeepResponseDTO> getAllPeeps() {
 
-        List<Peep> allPeeps = peepRepository.findAll();
+        List<Peep> allPeeps = peepRepository.findAll(Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));
+
         List<User> allUsers = userRepository.findAll();
 
         return mapping(allUsers, allPeeps);
@@ -34,7 +40,8 @@ public class PeepService {
     }
 
     public Peep editPeep(String id, Peep peep) {
-        if(!peepRepository.existsById(id)) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "That peep can't be found.");
+        if(!peepRepository.existsById(id))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "That peep can't be found.");
         return peepRepository.save(peep);
     }
 
