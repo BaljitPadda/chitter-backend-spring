@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @Validated
@@ -30,7 +29,6 @@ public class UserController {
     @PostMapping(value = "/login/{username}")
     @CrossOrigin
     public User login(@PathVariable String username, @Valid @RequestBody User user) {
-        User login = userService.login(user);
-        return login;
+        return userService.login(user);
     }
 }

@@ -10,9 +10,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PeepService {
@@ -25,7 +25,8 @@ public class PeepService {
     PeepService(PeepRepository peepRepository, UserRepository userRepository) {
         this.peepRepository = peepRepository;
         this.userRepository = userRepository;
-    };
+    }
+
     public List<PeepResponseDTO> getAllPeeps() {
 
         List<Peep> allPeeps = peepRepository.findAll(Sort.by(new Sort.Order(Sort.Direction.DESC, "id")));
@@ -40,7 +41,7 @@ public class PeepService {
     }
 
     public Peep editPeep(String id, Peep peep) {
-        if(!peepRepository.existsById(id))
+        if (!peepRepository.existsById(id))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "That peep can't be found.");
         return peepRepository.save(peep);
     }
@@ -49,7 +50,7 @@ public class PeepService {
 
         PeepResponseDTO peepResponseDTO = new PeepResponseDTO();
 
-        peepResponseDTO.setName(user.getName());
+        peepResponseDTO.setName(user == null ?  "Unknown user" : user.getName());
         peepResponseDTO.setUserID(peep.getUserID());
         peepResponseDTO.setTime(peep.getTime());
         peepResponseDTO.setMessage(peep.getMessage());
@@ -57,21 +58,32 @@ public class PeepService {
         return peepResponseDTO;
     }
 
-    private List<PeepResponseDTO> mapping (List<User> allUsers, List<Peep> allPeeps) {
+//    private List<PeepResponseDTO> mapping(List<User> allUsers, List<Peep> allPeeps) {
+//
+//        List<PeepResponseDTO> finalList = new ArrayList<>();
+//
+//        for (Peep peep : allPeeps) {
+//            for (User user : allUsers) {
+//
+//                if (user.getUsername().equals(peep.getUserID())) {
+//                    finalList.add(peepToDTO(user, peep));
+//                }
+//            }
+//        }
+//        return finalList;
+//    }
 
-        List<PeepResponseDTO> finalList = new ArrayList<>();
+    private List<PeepResponseDTO> mapping(List<User> allUsers, List<Peep> allPeeps) {
 
-        for (Peep peep : allPeeps) {
-            for(User user: allUsers) {
+        List<PeepResponseDTO> finalList = allPeeps.stream()
+                .map(peep -> {
+                    Optional<User> userFound = allUsers.stream()
+                            .filter(user -> user.getUsername().equals(peep.getUserID()))
+                            .findFirst();
+                    return peepToDTO(userFound.orElse(null), peep);
+                })
+                .collect(Collectors.toList());
 
-               if(user.getUsername().equals(peep.getUserID())){
-                   finalList.add(peepToDTO(user, peep));
-               }
-            }
-        }
-
-       return finalList;
+        return finalList;
     }
-
-
 }

@@ -1,0 +1,41 @@
+Object Mapper
+https://stackoverflow.com/questions/35855208/create-a-json-object-to-post-in-spring-boot-tests
+
+Sorting peeps
+https://stackoverflow.com/questions/18521009/spring-mongodb-query-sorting
+
+Custom queries
+https://www.baeldung.com/queries-in-spring-data-mongodb#generated-query-methods
+
+Unique fields
+https://stackoverflow.com/questions/49385130/spring-data-unique-field-in-mongodb-document
+
+Streams
+https://www.baeldung.com/java-8-streams-introduction
+
+Containerising a Spring Boot App, docker maven plugin
+https://spring.io/guides/topicals/spring-boot-docker/
+https://springframework.guru/fabric8-docker-maven-plugin/
+
+MongoDB Atlas
+https://cloud.mongodb.com/v2/656758c845f4d877ac2e91fa#/clusters
+
+Deployed Azure Container Instance
+https://portal.azure.com/#@baljitpaddahotmailco.onmicrosoft.com/resource/subscriptions/833d00f2-9481-4775-9ed7-80dc6f38966b/resourcegroups/chitter-resource-group/providers/Microsoft.ContainerInstance/containerGroups/chitter-challenge-java/overview
+
+Chitter java backend pushed to Docker Hub
+https://hub.docker.com/r/baljitpadda/chitter-challenge-java
+
+Get allPeeps API coming from Azure and Atlas
+http://20.162.177.206:8080/peeps
+
+Miro
+https://miro.com/app/board/uXjVMvVkXys=/
+
+!!! Docker Image Mac issue
+https://everythingdevops.dev/building-x86-images-on-an-apple-m1-chip/
+https://techcommunity.microsoft.com/t5/apps-on-azure-blog/building-a-flask-and-mongodb-app-with-azure-container-apps/ba-p/3834519#:~:text=If%20you%20are%20using%20an,be%20built%20as%20%60arm%60.
+images built on mac not compatible on ACI
+
+
+

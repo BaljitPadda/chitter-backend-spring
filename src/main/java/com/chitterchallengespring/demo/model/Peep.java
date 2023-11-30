@@ -1,17 +1,16 @@
 package com.chitterchallengespring.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.validation.annotation.Validated;
 
-import java.util.Date;
 
 @Document("peeps_")
 public class Peep {
 
+    // I need to access a peep's unique id in order to be able to edit it.
+    // This annotation grants me access to the id mongodb creates.
     @Id
     private String id;
 

@@ -1,17 +1,11 @@
 package com.chitterchallengespring.demo.services;
 
 import com.chitterchallengespring.demo.model.User;
-import com.chitterchallengespring.demo.repositories.PeepRepository;
 import com.chitterchallengespring.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Service

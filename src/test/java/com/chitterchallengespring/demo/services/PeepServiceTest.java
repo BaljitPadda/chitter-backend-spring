@@ -5,29 +5,18 @@ import com.chitterchallengespring.demo.model.Peep;
 import com.chitterchallengespring.demo.model.User;
 import com.chitterchallengespring.demo.repositories.PeepRepository;
 import com.chitterchallengespring.demo.repositories.UserRepository;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.verification.VerificationMode;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 class PeepServiceTest {
@@ -43,6 +32,18 @@ class PeepServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    @Test
+    void shouldBeAbleToAddPeep() {
+        PeepService peepService = new PeepService(peepRepository, null);
+        Peep testPeep = new Peep();
+        when(peepRepository.save(testPeep)).thenReturn(testPeep);
+
+        Peep actual = peepService.addPeep(testPeep);
+
+        Assertions.assertEquals(testPeep, actual);
+        Mockito.verify(peepRepository).save(testPeep);
+
+    }
 
     @Test
     void shouldBeAbleToEditAnExistingPeep() throws Exception {
@@ -94,19 +95,6 @@ class PeepServiceTest {
 
     }
 
-
-    @Test
-    void shouldBeAbleToAddPeep() {
-        PeepService peepService = new PeepService(peepRepository, null);
-        Peep testPeep = new Peep();
-        when(peepRepository.save(testPeep)).thenReturn(testPeep);
-
-        Peep actual = peepService.addPeep(testPeep);
-
-        Assertions.assertEquals(actual, testPeep);
-        Mockito.verify(peepRepository).save(testPeep);
-
-    }
 
     @Test
     void shouldBeAbleToGetAllPeeps() {
@@ -185,14 +173,6 @@ class PeepServiceTest {
 
         Assertions.assertEquals(userRepository.findAll().size(), allUsers.size());
 
-
-
-
-
-
-
-
     }
-
 
 }

@@ -7,8 +7,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.core.query.Query;
 
-import java.util.List;
-
 @Configuration
 public class TestMongoConfig {
 

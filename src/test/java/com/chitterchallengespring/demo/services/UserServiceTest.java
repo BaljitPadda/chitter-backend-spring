@@ -4,19 +4,13 @@ import com.chitterchallengespring.demo.model.User;
 import com.chitterchallengespring.demo.repositories.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyChar;
 import static org.mockito.Mockito.when;
 
 class UserServiceTest {
@@ -44,7 +38,7 @@ class UserServiceTest {
 
         Mockito.verify(userRepository).save(testUser);
 
-        Assertions.assertEquals(actual, testUser);
+        Assertions.assertEquals(testUser, actual);
 
     }
 
@@ -89,14 +83,14 @@ class UserServiceTest {
 
         when(userRepository.findByUsername("TestUsername")).thenReturn(Optional.of(userInDatabase));
 
-
+        // because I want to check that an exception is throwm, here I use a special assertion with an executable.
+        // this allows me to check the exception is thrown and stops program from terminating.
         Exception exception = Assertions.assertThrows(ResponseStatusException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
                 userService.login(requestUser);
             }
         });
-
 
         Mockito.verify(userRepository).findByUsername(requestUser.getUsername());
 

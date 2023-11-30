@@ -1,9 +1,4 @@
 package com.chitterchallengespring.demo.dto;
-
-import com.chitterchallengespring.demo.model.Peep;
-import com.chitterchallengespring.demo.model.User;
-import com.chitterchallengespring.demo.repositories.PeepRepository;
-
 import java.util.Objects;
 
 public class PeepResponseDTO {
@@ -58,14 +53,10 @@ public class PeepResponseDTO {
         return Objects.equals(name, that.name) && Objects.equals(userID, that.userID) && Objects.equals(time, that.time) && Objects.equals(message, that.message);
     }
 
-
-
     @Override
     public int hashCode() {
         return Objects.hash(name, userID, time, message);
     }
-
-
 
 
 }
