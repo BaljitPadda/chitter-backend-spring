@@ -18,8 +18,6 @@ class UserServiceTest {
     @Mock
     UserRepository userRepository;
 
-    UserService userService;
-
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);

@@ -22,7 +22,6 @@ import static org.mockito.Mockito.when;
 class PeepServiceTest {
     @Mock
     PeepRepository peepRepository;
-    //PeepService peepService;
 
     @Mock
     UserRepository userRepository;
@@ -89,8 +88,6 @@ class PeepServiceTest {
             }
         });
 
-        // when you want to test that an exception is thrown, you need to use executable, else the exeception terminates program.
-
         Assertions.assertEquals("404 NOT_FOUND \"That peep can't be found.\"", exception.getMessage());
 
     }
@@ -151,8 +148,6 @@ class PeepServiceTest {
         testResponse3.setUserID("Luke2023");
         testResponse3.setTime("2023-08-12T08:00:00.000Z");
         testResponse3.setMessage("test message 3");
-
-        List<PeepResponseDTO> expected = List.of(testResponse1, testResponse2, testResponse3);
 
         // How I expect the mocked repositories to behave
         when(peepRepository.findAll(any(Sort.class))).thenReturn(allPeeps);

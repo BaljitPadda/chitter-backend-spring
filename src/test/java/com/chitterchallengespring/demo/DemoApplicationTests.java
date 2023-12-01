@@ -53,7 +53,7 @@ class DemoApplicationTests {
 
         @Test
         @DisplayName("Should return bad request if an incorrectly formatted peep is added")
-        void shouldReturn404WhenIncorrectlyFormattedPeepIsAdded() throws Exception {
+        void shouldReturn400WhenIncorrectlyFormattedPeepIsAdded() throws Exception {
             Peep testPeep = new Peep();
             testPeep.setUserID("John2000");
             testPeep.setTime("2023-08-12T08:00:00.000Z");
@@ -138,15 +138,9 @@ class DemoApplicationTests {
             testUser.setEmail("Mario@hotmail.com");
             testUser.setPassword("mario");
 
-            MvcResult result = mockMvc.perform(post("/signup")
+            mockMvc.perform(post("/signup")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(JSONValue.toJSONString(testUser))).andExpect(status().is(201)).andReturn();
-
-            String contentAsString = result.getResponse().getContentAsString();
-            System.out.println(contentAsString);
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            User userResponse = objectMapper.readValue(contentAsString, User.class);
 
             mockMvc.perform(post("/login/Mario2023")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -154,9 +148,17 @@ class DemoApplicationTests {
         }
 
         @Test
-        @DisplayName("Should return a not found status code if a user who is not registered tries to sign in.")
-        void shouldReturnNotFoundIfSigningInAndNotRegistered() throws Exception {
-            mockMvc.perform(post("/login/NotRegisteredUser")).andExpect(status().is(400));
+        @DisplayName("Should issue with a user who is not registered tries to sign in.")
+        void shouldNotBeAbleToSignInIfNotRegistered() throws Exception {
+            User testUser = new User();
+            testUser.setName("Mario");
+            testUser.setUsername("Mario2023");
+            testUser.setEmail("Mario@hotmail.com");
+            testUser.setPassword("mario");
+
+            mockMvc.perform(post("/login/Mario2023")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(JSONValue.toJSONString(testUser))).andExpect(status().is(404));
         }
 
     }
